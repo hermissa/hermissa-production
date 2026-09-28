@@ -1,5 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 
 import heroImg from "@/assets/hero.jpg";
 import logoImg from "@/assets/hm-logo.png";
@@ -60,6 +66,46 @@ const WORKS = [
   { src: work6, title: "The Show", tag: "Fashion Week" },
 ];
 
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setVisible(true);
+        observer.unobserve(element);
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`scroll-reveal ${visible ? "is-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function Nav() {
   const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
@@ -95,7 +141,7 @@ function Nav() {
             <a
               key={item.href}
               href={item.href}
-              className="text-[0.7rem] tracking-[0.3em] uppercase text-muted-foreground transition-colors hover:text-primary"
+              className="text-sm font-light tracking-[0.28em] uppercase text-primary transition-opacity hover:opacity-70"
             >
               {item.label}
             </a>
@@ -127,7 +173,7 @@ function Nav() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="text-xs tracking-[0.35em] uppercase text-foreground transition-colors hover:text-primary"
+                className="text-base font-light tracking-[0.28em] uppercase text-primary transition-opacity hover:opacity-70"
               >
                 {item.label}
               </a>
@@ -150,7 +196,7 @@ function Hero() {
         />
         <div className="absolute inset-0 bg-background/10" />
         <div className="absolute inset-x-0 bottom-0 h-[32%] bg-[linear-gradient(to_top,rgba(10,8,6,0.45)_0%,rgba(10,8,6,0.15)_55%,transparent_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-6 pb-16 text-center sm:pb-20">
+        <div className="hero-copy-enter absolute inset-x-0 bottom-0 flex flex-col items-center px-6 pb-16 text-center sm:pb-20">
           <h1
             className="text-2xl font-medium uppercase tracking-[0.45em] text-[#e6d9ae] sm:text-4xl sm:tracking-[0.5em] lg:text-5xl"
             style={{ textShadow: "0 1px 14px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)" }}
@@ -175,12 +221,10 @@ function SectionHeading({
   title: string;
 }) {
   return (
-    <div className="mb-16 text-center lg:mb-24">
+    <Reveal className="mb-16 text-center lg:mb-24">
       <p className="overline mb-4">{overline}</p>
-      <h2 className="font-display text-4xl text-foreground sm:text-5xl">
-        {title}
-      </h2>
-    </div>
+      <h2 className="font-display text-4xl text-foreground sm:text-5xl">{title}</h2>
+    </Reveal>
   );
 }
 
@@ -192,24 +236,24 @@ function WorkCard({
   tall?: boolean;
 }) {
   return (
-    <figure className="group relative overflow-hidden">
-      <img
-        src={work.src}
-        alt={work.title}
-        loading="lazy"
-        width={912}
-        height={1200}
-        className={`img-editorial group-hover:img-editorial-hover w-full object-cover ${
-          tall ? "aspect-[3/4]" : "aspect-[3/4]"
-        }`}
-      />
-      <figcaption className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-background/85 via-transparent to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-        <span className="overline mb-1.5">{work.tag}</span>
-        <span className="font-display text-2xl text-foreground">
-          {work.title}
-        </span>
-      </figcaption>
-    </figure>
+    <Reveal>
+      <figure className="group relative overflow-hidden">
+        <img
+          src={work.src}
+          alt={work.title}
+          loading="lazy"
+          width={912}
+          height={1200}
+          className={`img-editorial group-hover:img-editorial-hover w-full object-cover ${
+            tall ? "aspect-[3/4]" : "aspect-[3/4]"
+          }`}
+        />
+        <figcaption className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-background/85 via-transparent to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+          <span className="overline mb-1.5">{work.tag}</span>
+          <span className="font-display text-2xl text-foreground">{work.title}</span>
+        </figcaption>
+      </figure>
+    </Reveal>
   );
 }
 
@@ -259,7 +303,7 @@ function InstagramIcon({ className }: { className?: string }) {
 function InstagramFeed() {
   return (
     <section aria-label="Instagram" className="border-y border-border py-24 lg:py-32">
-      <div className="mx-auto flex max-w-7xl gap-10 px-6 lg:gap-16 lg:px-10">
+      <Reveal className="mx-auto flex max-w-7xl gap-10 px-6 lg:gap-16 lg:px-10">
         <a
           href="https://instagram.com/hermissamakeup"
           target="_blank"
@@ -319,7 +363,7 @@ function InstagramFeed() {
             </a>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -328,15 +372,17 @@ function About() {
   return (
     <section id="ueber-mich" className="scroll-mt-20 py-24 lg:py-40">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-2 lg:gap-20 lg:px-10">
-        <img
-          src={about}
-          alt="Melissa — Pro Makeup Artist HERMISSA"
-          loading="lazy"
-          width={912}
-          height={1200}
-          className="aspect-[3/4] w-full object-cover"
-        />
-        <div>
+        <Reveal>
+          <img
+            src={about}
+            alt="Melissa — Pro Makeup Artist HERMISSA"
+            loading="lazy"
+            width={912}
+            height={1200}
+            className="aspect-[3/4] w-full object-cover"
+          />
+        </Reveal>
+        <Reveal delay={100}>
           <p className="overline mb-4">Über mich</p>
           <h2 className="font-display text-4xl leading-tight text-foreground sm:text-5xl">
             Melissa —<br />
@@ -354,7 +400,7 @@ function About() {
             oder ein Editorial mit klarer Vision — ich bringe Ruhe, Tempo und
             einen sicheren Blick fürs Gesamtbild mit.
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -413,7 +459,7 @@ function Contact() {
   return (
     <section id="kontakt" className="scroll-mt-20 py-24 lg:py-40">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-20 lg:px-10">
-        <div className="min-w-0">
+        <Reveal className="min-w-0">
           <p className="overline mb-4">Kontakt</p>
           <h2 className="font-display text-4xl leading-tight text-foreground sm:text-5xl">
             Lass uns
@@ -448,18 +494,19 @@ function Contact() {
               Instagram — @hermissamakeup
             </a>
           </p>
-        </div>
-        {sent ? (
-          <div className="flex min-h-[24rem] min-w-0 items-center justify-center border border-primary/40 bg-card/40 px-6 py-16 text-center sm:px-12">
+        </Reveal>
+        <Reveal className="min-w-0" delay={100}>
+          {sent ? (
+            <div className="flex min-h-[24rem] min-w-0 items-center justify-center border border-primary/40 bg-card/40 px-6 py-16 text-center sm:px-12">
             <p className="font-display text-xl leading-relaxed text-foreground sm:text-2xl">
               Ich freue mich von Ihnen zu hören und{" "}
               <span className="text-primary">
                 melde mich so schnell wie möglich zurück.
               </span>
             </p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="min-w-0 space-y-5">
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="min-w-0 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label
@@ -546,8 +593,9 @@ function Contact() {
             >
               {sending ? "Wird gesendet …" : "Anfrage senden"}
             </button>
-          </form>
-        )}
+            </form>
+          )}
+        </Reveal>
       </div>
     </section>
   );
@@ -588,7 +636,7 @@ function WhatsAppFloat() {
 function Footer() {
   return (
     <footer className="border-t border-border py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-center lg:px-10">
+      <Reveal className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-center lg:px-10">
         <img
           src={logoImg}
           alt="HERMISSA HM Monogramm"
@@ -608,7 +656,7 @@ function Footer() {
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} HERMISSA — All rights reserved
         </p>
-      </div>
+      </Reveal>
     </footer>
   );
 }
