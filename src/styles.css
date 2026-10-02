@@ -35,9 +35,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Italiana", "Didot", serif;
+  --font-display: "Jost", Arial, sans-serif;
   --font-script: "Great Vibes", cursive;
-  --font-sans: "Italiana", "Didot", serif;
+  --font-sans: "Jost", Arial, sans-serif;
 }
 
 :root {
