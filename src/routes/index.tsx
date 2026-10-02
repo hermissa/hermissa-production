@@ -357,7 +357,7 @@ function InstagramFeed() {
               href="https://instagram.com/hermissamakeup"
               target="_blank"
               rel="noreferrer"
-              className="inline-block border border-border px-8 py-3 text-[0.65rem] tracking-[0.35em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary"
+              className="inline-block border border-border px-8 py-3 text-xs tracking-[0.35em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary"
             >
               Mehr auf Instagram
             </a>
