@@ -141,7 +141,7 @@ function Nav() {
             <a
               key={item.href}
               href={item.href}
-              className="text-sm font-light tracking-[0.28em] uppercase text-primary transition-opacity hover:opacity-70"
+              className="text-base font-light tracking-[0.28em] uppercase text-primary transition-opacity hover:opacity-70"
             >
               {item.label}
             </a>
@@ -203,7 +203,7 @@ function Hero() {
           >
             Hermissa
           </h1>
-          <p className="mt-6 text-[0.65rem] font-medium tracking-[0.45em] uppercase text-[#e6d9ae] sm:text-xs sm:tracking-[0.5em]" style={{ textShadow: "0 1px 12px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)" }}>
+          <p className="mt-6 text-[0.75rem] font-medium tracking-[0.45em] uppercase text-[#e6d9ae] sm:text-sm sm:tracking-[0.5em]" style={{ textShadow: "0 1px 12px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.7)" }}>
             Professional Makeup Artist
           </p>
         </div>
@@ -511,7 +511,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="name"
-                  className="overline mb-2 block text-[0.6rem]"
+                  className="overline mb-2 block"
                 >
                   Name
                 </label>
@@ -526,7 +526,7 @@ function Contact() {
               <div>
                 <label
                   htmlFor="email"
-                  className="overline mb-2 block text-[0.6rem]"
+                  className="overline mb-2 block"
                 >
                   E-Mail
                 </label>
@@ -543,7 +543,7 @@ function Contact() {
             <div>
               <label
                 htmlFor="phone"
-                className="overline mb-2 block text-[0.6rem]"
+                className="overline mb-2 block"
               >
                 Telefon (optional)
               </label>
@@ -567,7 +567,7 @@ function Contact() {
             <div>
               <label
                 htmlFor="nachricht"
-                className="overline mb-2 block text-[0.6rem]"
+                className="overline mb-2 block"
               >
                 Nachricht
               </label>
@@ -589,7 +589,7 @@ function Contact() {
             <button
               type="submit"
               disabled={sending}
-              className="w-full bg-primary py-4 text-[0.7rem] tracking-[0.35em] uppercase text-primary-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full bg-primary py-4 text-xs tracking-[0.35em] uppercase text-primary-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {sending ? "Wird gesendet …" : "Anfrage senden"}
             </button>
@@ -653,7 +653,7 @@ function Footer() {
           loading="lazy"
           className="h-4 w-auto"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-sm text-muted-foreground">
           © {new Date().getFullYear()} HERMISSA — All rights reserved
         </p>
       </Reveal>
