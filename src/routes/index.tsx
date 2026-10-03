@@ -273,12 +273,16 @@ function Portfolio() {
 }
 
 const INSTA_POSTS = [
-  { src: insta1, alt: "Golden Glow — Instagram Post" },
-  { src: insta2, alt: "Backstage Prep — Instagram Post" },
-  { src: insta3, alt: "Graphic Liner — Instagram Post" },
-  { src: insta4, alt: "Bronze Beauty — Instagram Post" },
-  { src: insta5, alt: "Berry Couture — Instagram Post" },
-  { src: insta6, alt: "Backstage Moments — Instagram Post" },
+  {
+    src: insta1,
+    alt: "Bold Red Lips — Instagram Post",
+    href: "https://www.instagram.com/p/DT8vtufjGLR/?img_index=2",
+  },
+  { src: insta2, alt: "Backstage Prep — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta3, alt: "Graphic Liner — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta4, alt: "Bronze Beauty — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta5, alt: "Berry Couture — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta6, alt: "Backstage Moments — Instagram Post", href: "https://instagram.com/hermissamakeup" },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {
