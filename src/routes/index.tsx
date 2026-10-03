@@ -337,7 +337,7 @@ function InstagramFeed() {
             {INSTA_POSTS.map((post) => (
               <a
                 key={post.src}
-                href="https://instagram.com/hermissamakeup"
+                href={post.href}
                 target="_blank"
                 rel="noreferrer"
                 className="group relative block overflow-hidden"
