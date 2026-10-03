@@ -5,3 +5,4 @@
 - [x] Alle Inhalte unterhalb von Titelbild und Menü beim Scrollen einblenden
 - [x] Darstellung und Build prüfen
 - [x] Sämtliche Schrift auf den früheren, gut lesbaren Titelstil zurückstellen
+- [x] Neues HM-Logo im Menü, Footer und Browser-Symbol einsetzen
