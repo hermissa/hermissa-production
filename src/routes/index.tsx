@@ -8,7 +8,7 @@ import {
 } from "react";
 
 import heroImg from "@/assets/hero.jpg";
-import logoImg from "@/assets/hm-logo.png";
+import logoAsset from "@/assets/hm-logo.png.asset.json";
 import wordmarkImg from "@/assets/hermissa-wordmark.png";
 import about from "@/assets/about.jpg";
 import work1 from "@/assets/work-1.jpg";
@@ -129,7 +129,7 @@ function Nav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <a href="#top" className="flex items-center">
           <img
-            src={logoImg}
+            src={logoAsset.url}
             alt="HERMISSA HM Monogramm"
             width={34}
             height={34}
@@ -638,7 +638,7 @@ function Footer() {
     <footer className="border-t border-border py-12">
       <Reveal className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-center lg:px-10">
         <img
-          src={logoImg}
+          src={logoAsset.url}
           alt="HERMISSA HM Monogramm"
           width={44}
           height={44}
