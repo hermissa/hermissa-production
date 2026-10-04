@@ -282,7 +282,7 @@ const INSTA_POSTS = [
   { src: insta3, alt: "Rose — Instagram Post", href: "https://www.instagram.com/p/DUq2e5uDjZO/?img_index=3" },
   { src: insta4, alt: "Berry Editorial — Instagram Post", href: "https://www.instagram.com/p/DJj-n1DNC0_/" },
   { src: insta5, alt: "Red Lace — Instagram Post", href: "https://www.instagram.com/p/DchDpBWDv-K/?img_index=1" },
-  { src: insta6, alt: "Backstage Moments — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta6, alt: "Backstage Moments — Instagram Post", href: "https://www.instagram.com/p/DWq04geDDkN/?img_index=4" },
 ];
 
 function InstagramIcon({ className }: { className?: string }) {
