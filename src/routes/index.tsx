@@ -280,8 +280,8 @@ const INSTA_POSTS = [
   },
   { src: insta2, alt: "Brow Shaping — Instagram Post", href: "https://www.instagram.com/p/DO_ksYMCAjP/" },
   { src: insta3, alt: "Rose — Instagram Post", href: "https://www.instagram.com/p/DUq2e5uDjZO/?img_index=3" },
-  { src: insta4, alt: "Bronze Beauty — Instagram Post", href: "https://instagram.com/hermissamakeup" },
-  { src: insta5, alt: "Berry Couture — Instagram Post", href: "https://instagram.com/hermissamakeup" },
+  { src: insta4, alt: "Berry Editorial — Instagram Post", href: "https://www.instagram.com/p/DJj-n1DNC0_/" },
+  { src: insta5, alt: "Red Lace — Instagram Post", href: "https://www.instagram.com/p/DchDpBWDv-K/?img_index=1" },
   { src: insta6, alt: "Backstage Moments — Instagram Post", href: "https://instagram.com/hermissamakeup" },
 ];
 
