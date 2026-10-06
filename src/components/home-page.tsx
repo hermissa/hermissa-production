@@ -487,6 +487,7 @@ function About() {
 
 function Contact() {
   const t = useT();
+  const lang = useContext(LangContext);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -507,7 +508,7 @@ function Contact() {
           phone: String(data.get("phone") ?? ""),
           message: String(data.get("nachricht") ?? ""),
           website: String(data.get("website") ?? ""),
-          lang: useContext(LangContext),
+          lang,
         }),
       });
       const body = (await res.json().catch(() => ({}))) as {
