@@ -49,19 +49,24 @@ export const Route = createFileRoute("/api/contact")({
         }
         const parsed = schema.safeParse(raw);
         if (!parsed.success) return json({ error: "invalid_input" }, 400);
-        const { name, email, phone, message, website } = parsed.data;
+        const { name, email, phone, message, website, lang } = parsed.data;
         if (website) return json({ ok: true }); // bot
 
+        const isEn = lang === "en";
+        const labels = isEn
+          ? { heading: "New contact request via hermissa.ch", name: "Name", email: "Email", phone: "Phone", message: "Message" }
+          : { heading: "Neue Kontaktanfrage über hermissa.ch", name: "Name", email: "E-Mail", phone: "Telefon", message: "Nachricht" };
+
         const rows: [string, string][] = [
-          ["Name", name],
-          ["E-Mail", email],
-          ...(phone ? [["Telefon", phone] as [string, string]] : []),
+          [labels.name, name],
+          [labels.email, email],
+          ...(phone ? [[labels.phone, phone] as [string, string]] : []),
         ];
-        const text = `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nNachricht:\n${message}`;
+        const text = `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\n${labels.message}:\n${message}`;
         const html = `<div style="font-family:Arial,sans-serif;color:#111">
-<h2 style="font-weight:normal">Neue Kontaktanfrage über hermissa.ch</h2>
+<h2 style="font-weight:normal">${labels.heading}</h2>
 ${rows.map(([k, v]) => `<p><strong>${k}:</strong> ${escapeHtml(v)}</p>`).join("")}
-<p><strong>Nachricht:</strong></p>
+<p><strong>${labels.message}:</strong></p>
 <p style="white-space:pre-wrap">${escapeHtml(message)}</p></div>`;
 
         const res = await fetch("https://api.resend.com/emails", {
@@ -74,7 +79,7 @@ ${rows.map(([k, v]) => `<p><strong>${k}:</strong> ${escapeHtml(v)}</p>`).join(""
             from,
             to: [to],
             reply_to: email,
-            subject: "Neue Kontaktanfrage über hermissa.ch",
+            subject: isEn ? "New contact request via hermissa.ch" : "Neue Kontaktanfrage über hermissa.ch",
             text,
             html,
           }),
