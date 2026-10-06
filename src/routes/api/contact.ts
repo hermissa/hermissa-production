@@ -12,6 +12,7 @@ const schema = z.object({
     .optional()
     .or(z.literal("")),
   message: z.string().trim().min(1).max(5000),
+  lang: z.enum(["de", "en"]).optional(),
   // Honeypot: must stay empty
   website: z.string().max(0).optional().or(z.literal("")),
 });

@@ -507,6 +507,7 @@ function Contact() {
           phone: String(data.get("phone") ?? ""),
           message: String(data.get("nachricht") ?? ""),
           website: String(data.get("website") ?? ""),
+          lang: useContext(LangContext),
         }),
       });
       const body = (await res.json().catch(() => ({}))) as {
