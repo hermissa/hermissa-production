@@ -5,13 +5,13 @@ export const Route = createFileRoute("/en")({
   component: () => <HomePage lang="en" />,
   head: () => ({
     meta: [
-      { title: "HERMISSA — Pro Makeup Artist for Editorial & Fashion" },
+      { title: "HERMISSA – Fashion & Bridal Make Up" },
       {
         name: "description",
         content:
           "Melissa — pro makeup artist based in Switzerland. Beauty, commercial & editorial for fashion shows, shoots and campaigns. Get in touch for bookings.",
       },
-      { property: "og:title", content: "HERMISSA — Pro Makeup Artist for Editorial & Fashion" },
+      { property: "og:title", content: "HERMISSA – Fashion & Bridal Make Up" },
       {
         property: "og:description",
         content: "Beauty, commercial & editorial — based in Switzerland. Get in touch for bookings.",
