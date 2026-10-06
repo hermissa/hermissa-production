@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import {
+  createContext,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -24,38 +26,109 @@ import insta4 from "@/assets/insta-4.jpg";
 import insta5 from "@/assets/insta-5.jpg";
 import insta6 from "@/assets/insta-6.jpg";
 
-export const Route = createFileRoute("/")({
-  component: Index,
-  head: () => ({
-    meta: [
-      {
-        title: "HERMISSA — Pro Makeup Artist für Editorial & Fashion",
-      },
-      {
-        name: "description",
-        content:
-          "Melissa — Pro Makeup Artist in der Schweiz. Beauty, Commercial & Editorial für Fashion Shows, Shootings und Campaigns. Kontakt für Bookings.",
-      },
-      {
-        property: "og:title",
-        content: "HERMISSA — Pro Makeup Artist für Editorial & Fashion",
-      },
-      {
-        property: "og:description",
-        content:
-          "Beauty, Commercial & Editorial — based in Switzerland. Kontakt für Bookings.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-});
+export type Lang = "de" | "en";
 
-const NAV = [
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Über mich", href: "#ueber-mich" },
-  { label: "Kontakt", href: "#kontakt" },
-];
+const STRINGS = {
+  de: {
+    nav: [
+      { label: "Portfolio", href: "#portfolio" },
+      { label: "Über mich", href: "#ueber-mich" },
+      { label: "Kontakt", href: "#kontakt" },
+    ],
+    menuOpen: "Menü öffnen",
+    menuClose: "Menü schliessen",
+    switchLabel: "Switch to English",
+    selectedWork: "Ausgewählte Arbeiten",
+    follow: "HERMISSA auf Instagram folgen",
+    moreInsta: "Mehr auf Instagram",
+    aboutOver: "Über mich",
+    aboutP1:
+      "Based in Switzerland arbeite ich zwischen Beauty, Commercial und Editorial — von backstage an Fashion Shows über Kampagnen-Shootings bis zu Cover-Looks. Meine Arbeit lebt von präziser Haut-Optik, Leuchtkraft und Looks, die unter Scheinwerfern und durch die Linse bestehen.",
+    aboutP2:
+      "Ob Runway mit engem Zeitfenster, Set mit wechselnden Lichtsituationen oder ein Editorial mit klarer Vision — ich bringe Ruhe, Tempo und einen sicheren Blick fürs Gesamtbild mit.",
+    contactOver: "Kontakt",
+    contactH1: "Lass uns",
+    contactH2: "zusammen",
+    contactH3: "arbeiten",
+    thanks1: "Ich freue mich von Ihnen zu hören und",
+    thanks2: "melde mich so schnell wie möglich zurück.",
+    namePh: "Dein Name",
+    emailPh: "name@beispiel.ch",
+    phone: "Telefon (optional)",
+    message: "Nachricht",
+    messagePh: "Erzähl mir kurz von deinem Projekt, Datum & Ort …",
+    sending: "Wird gesendet …",
+    send: "Anfrage senden",
+    errInput:
+      "Bitte überprüfe deine Angaben (Name, gültige E-Mail, Telefon nur mit Ziffern und Nachricht).",
+    errConfig:
+      "Das Formular ist noch nicht fertig eingerichtet. Bitte schreib direkt an melissa@hermissa.ch.",
+    errSend:
+      "Die Nachricht konnte leider nicht gesendet werden. Bitte versuche es später erneut oder schreib direkt an melissa@hermissa.ch.",
+    errNet:
+      "Keine Verbindung möglich. Bitte prüfe deine Internetverbindung und versuche es erneut.",
+    waChat: "Per WhatsApp chatten",
+    monogram: "HERMISSA HM Monogramm",
+  },
+  en: {
+    nav: [
+      { label: "Portfolio", href: "#portfolio" },
+      { label: "About", href: "#ueber-mich" },
+      { label: "Contact", href: "#kontakt" },
+    ],
+    menuOpen: "Open menu",
+    menuClose: "Close menu",
+    switchLabel: "Auf Deutsch wechseln",
+    selectedWork: "Selected Work",
+    follow: "Follow HERMISSA on Instagram",
+    moreInsta: "More on Instagram",
+    aboutOver: "About me",
+    aboutP1:
+      "Based in Switzerland, I work across beauty, commercial and editorial — from backstage at fashion shows to campaign shoots and cover looks. My work is defined by precise skin, radiance and looks that hold up under spotlights and through the lens.",
+    aboutP2:
+      "Whether it's a runway with a tight schedule, a set with changing light or an editorial with a clear vision — I bring calm, speed and a confident eye for the bigger picture.",
+    contactOver: "Contact",
+    contactH1: "Let's work",
+    contactH2: "",
+    contactH3: "together",
+    thanks1: "I look forward to hearing from you and",
+    thanks2: "will get back to you as soon as possible.",
+    namePh: "Your name",
+    emailPh: "name@example.com",
+    phone: "Phone (optional)",
+    message: "Message",
+    messagePh: "Tell me briefly about your project, date & location …",
+    sending: "Sending …",
+    send: "Send request",
+    errInput:
+      "Please check your details (name, valid email, phone with digits only, and message).",
+    errConfig:
+      "The form isn't fully set up yet. Please write directly to melissa@hermissa.ch.",
+    errSend:
+      "Your message couldn't be sent. Please try again later or write directly to melissa@hermissa.ch.",
+    errNet: "No connection. Please check your internet connection and try again.",
+    waChat: "Chat on WhatsApp",
+    monogram: "HERMISSA HM monogram",
+  },
+} as const;
+
+const LangContext = createContext<Lang>("de");
+const useT = () => STRINGS[useContext(LangContext)];
+
+function LangSwitch({ className = "", onClick }: { className?: string; onClick?: () => void }) {
+  const lang = useContext(LangContext);
+  const t = STRINGS[lang];
+  return (
+    <Link
+      to={lang === "de" ? "/en" : "/"}
+      onClick={onClick}
+      aria-label={t.switchLabel}
+      className={`text-base font-light tracking-[0.28em] uppercase text-primary transition-opacity hover:opacity-70 ${className}`}
+    >
+      {lang === "de" ? "EN" : "DE"}
+    </Link>
+  );
+}
 
 const WORKS = [
   { src: work1, title: "Golden Hour Beauty", tag: "Beauty" },
@@ -107,6 +180,7 @@ function Reveal({
 }
 
 function Nav() {
+  const t = useT();
   const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
@@ -130,14 +204,14 @@ function Nav() {
         <a href="#top" className="flex items-center">
           <img
             src={hmLogoImg}
-            alt="HERMISSA HM Monogramm"
+            alt={t.monogram}
             width={34}
             height={34}
             className="h-[34px] w-[34px] object-contain"
           />
         </a>
         <nav className="hidden items-center gap-10 md:flex">
-          {NAV.map((item) => (
+          {t.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -146,10 +220,12 @@ function Nav() {
               {item.label}
             </a>
           ))}
+          <span className="h-4 w-px bg-border" aria-hidden="true" />
+          <LangSwitch />
         </nav>
         <button
           type="button"
-          aria-label={open ? "Menü schliessen" : "Menü öffnen"}
+          aria-label={open ? t.menuClose : t.menuOpen}
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
           className="relative flex h-10 w-10 items-center justify-center md:hidden"
@@ -168,7 +244,7 @@ function Nav() {
       {open && (
         <nav className="border-t border-border md:hidden">
           <div className="flex flex-col items-center gap-8 py-10">
-            {NAV.map((item) => (
+            {t.nav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
@@ -178,6 +254,8 @@ function Nav() {
                 {item.label}
               </a>
             ))}
+            <span className="h-px w-10 bg-border" aria-hidden="true" />
+            <LangSwitch onClick={() => setOpen(false)} />
           </div>
         </nav>
       )}
@@ -258,10 +336,11 @@ function WorkCard({
 }
 
 function Portfolio() {
+  const t = useT();
   return (
     <section id="portfolio" className="scroll-mt-20 py-24 lg:py-40">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeading overline="Ausgewählte Arbeiten" title="Portfolio" />
+        <SectionHeading overline={t.selectedWork} title="Portfolio" />
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {WORKS.map((work) => (
             <WorkCard key={work.title} work={work} />
@@ -305,6 +384,7 @@ function InstagramIcon({ className }: { className?: string }) {
 }
 
 function InstagramFeed() {
+  const t = useT();
   return (
     <section aria-label="Instagram" className="border-y border-border py-24 lg:py-32">
       <Reveal className="mx-auto flex max-w-7xl gap-10 px-6 lg:gap-16 lg:px-10">
@@ -313,7 +393,7 @@ function InstagramFeed() {
           target="_blank"
           rel="noreferrer"
           className="group hidden shrink-0 flex-col items-center gap-6 pt-2 sm:flex"
-          aria-label="HERMISSA auf Instagram folgen"
+          aria-label={t.follow}
         >
           <InstagramIcon className="h-14 w-14 text-foreground transition-colors group-hover:text-primary" />
           <span className="rotate-180 text-2xl tracking-[0.6em] uppercase text-muted-foreground transition-colors group-hover:text-primary [writing-mode:vertical-rl]">
@@ -326,7 +406,7 @@ function InstagramFeed() {
             target="_blank"
             rel="noreferrer"
             className="group mb-8 flex items-center justify-center gap-4 sm:hidden"
-            aria-label="HERMISSA auf Instagram folgen"
+            aria-label={t.follow}
           >
             <InstagramIcon className="h-12 w-12 text-foreground transition-colors group-hover:text-primary" />
             <span className="text-xl tracking-[0.5em] uppercase text-muted-foreground transition-colors group-hover:text-primary">
@@ -363,7 +443,7 @@ function InstagramFeed() {
               rel="noreferrer"
               className="inline-block border border-border px-8 py-3 text-xs tracking-[0.35em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary"
             >
-              Mehr auf Instagram
+              {t.moreInsta}
             </a>
           </div>
         </div>
@@ -373,6 +453,7 @@ function InstagramFeed() {
 }
 
 function About() {
+  const t = useT();
   return (
     <section id="ueber-mich" className="scroll-mt-20 py-24 lg:py-40">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-2 lg:gap-20 lg:px-10">
@@ -387,22 +468,16 @@ function About() {
           />
         </Reveal>
         <Reveal delay={100}>
-          <p className="overline mb-4">Über mich</p>
+          <p className="overline mb-4">{t.aboutOver}</p>
           <h2 className="font-display text-4xl leading-tight text-foreground sm:text-5xl">
             Melissa —<br />
             <span className="text-primary">Pro Makeup Artist</span>
           </h2>
           <p className="mt-8 text-base font-light leading-relaxed text-muted-foreground">
-            Based in Switzerland arbeite ich zwischen Beauty, Commercial und
-            Editorial — von backstage an Fashion Shows über Kampagnen-Shootings
-            bis zu Cover-Looks. Meine Arbeit lebt von präziser Haut-Optik,
-            Leuchtkraft und Looks, die unter Scheinwerfern und durch die Linse
-            bestehen.
+            {t.aboutP1}
           </p>
           <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground">
-            Ob Runway mit engem Zeitfenster, Set mit wechselnden Lichtsituationen
-            oder ein Editorial mit klarer Vision — ich bringe Ruhe, Tempo und
-            einen sicheren Blick fürs Gesamtbild mit.
+            {t.aboutP2}
           </p>
         </Reveal>
       </div>
@@ -411,6 +486,7 @@ function About() {
 }
 
 function Contact() {
+  const t = useT();
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -443,15 +519,13 @@ function Contact() {
       }
       setError(
         body.error === "invalid_input"
-          ? "Bitte überprüfe deine Angaben (Name, gültige E-Mail, Telefon nur mit Ziffern und Nachricht)."
+          ? t.errInput
           : body.error === "server_config"
-            ? "Das Formular ist noch nicht fertig eingerichtet. Bitte schreib direkt an melissa@hermissa.ch."
-            : "Die Nachricht konnte leider nicht gesendet werden. Bitte versuche es später erneut oder schreib direkt an melissa@hermissa.ch.",
+            ? t.errConfig
+            : t.errSend,
       );
     } catch {
-      setError(
-        "Keine Verbindung möglich. Bitte prüfe deine Internetverbindung und versuche es erneut.",
-      );
+      setError(t.errNet);
     } finally {
       setSending(false);
     }
@@ -464,11 +538,11 @@ function Contact() {
     <section id="kontakt" className="scroll-mt-20 py-24 lg:py-40">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-20 lg:px-10">
         <Reveal className="min-w-0">
-          <p className="overline mb-4">Kontakt</p>
+          <p className="overline mb-4">{t.contactOver}</p>
           <h2 className="font-display text-4xl leading-tight text-foreground sm:text-5xl">
-            Lass uns
+            {t.contactH1}
             <br />
-            zusammen<span className="text-primary">arbeiten</span>
+            {t.contactH2}<span className="text-primary">{t.contactH3}</span>
           </h2>
           <p className="mt-8 break-words text-sm text-muted-foreground">
             <a
@@ -503,9 +577,9 @@ function Contact() {
           {sent ? (
             <div className="flex min-h-[24rem] min-w-0 items-center justify-center border border-primary/40 bg-card/40 px-6 py-16 text-center sm:px-12">
             <p className="font-display text-xl leading-relaxed text-foreground sm:text-2xl">
-              Ich freue mich von Ihnen zu hören und{" "}
+              {t.thanks1}{" "}
               <span className="text-primary">
-                melde mich so schnell wie möglich zurück.
+                {t.thanks2}
               </span>
             </p>
             </div>
@@ -523,7 +597,7 @@ function Contact() {
                   id="name"
                   name="name"
                   required
-                  placeholder="Dein Name"
+                  placeholder={t.namePh}
                   className={inputClass}
                 />
               </div>
@@ -539,7 +613,7 @@ function Contact() {
                   name="email"
                   type="email"
                   required
-                  placeholder="name@beispiel.ch"
+                  placeholder={t.emailPh}
                   className={inputClass}
                 />
               </div>
@@ -549,7 +623,7 @@ function Contact() {
                 htmlFor="phone"
                 className="overline mb-2 block"
               >
-                Telefon (optional)
+                {t.phone}
               </label>
               <input
                 id="phone"
@@ -573,7 +647,7 @@ function Contact() {
                 htmlFor="nachricht"
                 className="overline mb-2 block"
               >
-                Nachricht
+                {t.message}
               </label>
               <textarea
                 id="nachricht"
@@ -581,7 +655,7 @@ function Contact() {
                 required
                 maxLength={5000}
                 rows={6}
-                placeholder="Erzähl mir kurz von deinem Projekt, Datum & Ort …"
+                placeholder={t.messagePh}
                 className={`${inputClass} resize-none`}
               />
             </div>
@@ -595,7 +669,7 @@ function Contact() {
               disabled={sending}
               className="w-full bg-primary py-4 text-xs tracking-[0.35em] uppercase text-primary-foreground transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {sending ? "Wird gesendet …" : "Anfrage senden"}
+              {sending ? t.sending : t.send}
             </button>
             </form>
           )}
@@ -624,12 +698,13 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 function WhatsAppFloat() {
+  const t = useT();
   return (
     <a
       href="https://wa.me/41786521828"
       target="_blank"
       rel="noreferrer"
-      aria-label="Per WhatsApp chatten"
+      aria-label={t.waChat}
       className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-background/70 text-foreground shadow-sm backdrop-blur transition-colors hover:border-primary hover:text-primary"
     >
       <WhatsAppIcon className="h-6 w-6" />
@@ -638,12 +713,13 @@ function WhatsAppFloat() {
 }
 
 function Footer() {
+  const t = useT();
   return (
     <footer className="border-t border-border py-12">
       <Reveal className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 text-center lg:px-10">
         <img
           src={hmLogoImg}
-          alt="HERMISSA HM Monogramm"
+          alt={t.monogram}
           width={44}
           height={44}
           loading="lazy"
@@ -657,6 +733,7 @@ function Footer() {
           loading="lazy"
           className="h-4 w-auto"
         />
+        <LangSwitch className="text-sm" />
         <p className="text-sm text-muted-foreground">
           © {new Date().getFullYear()} HERMISSA — All rights reserved
         </p>
@@ -665,19 +742,24 @@ function Footer() {
   );
 }
 
-function Index() {
+export function HomePage({ lang }: { lang: Lang }) {
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
   return (
-    <div className="min-h-screen bg-background">
-      <Nav />
-      <main>
-        <Hero />
-        <Portfolio />
-        <InstagramFeed />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
-      <WhatsAppFloat />
-    </div>
+    <LangContext.Provider value={lang}>
+      <div className="min-h-screen bg-background">
+        <Nav />
+        <main>
+          <Hero />
+          <Portfolio />
+          <InstagramFeed />
+          <About />
+          <Contact />
+        </main>
+        <Footer />
+        <WhatsAppFloat />
+      </div>
+    </LangContext.Provider>
   );
 }
