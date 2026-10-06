@@ -480,12 +480,12 @@ function Contact() {
           </p>
           <p className="mt-3 text-sm text-muted-foreground">
             <a
-              href="https://wa.me/41766295056"
+              href="https://wa.me/41786521828"
               target="_blank"
               rel="noreferrer"
               className="transition-colors hover:text-primary"
             >
-              WhatsApp — +41 76 629 50 56
+              WhatsApp — +41 78 652 18 28
             </a>
           </p>
           <p className="mt-3 text-sm text-muted-foreground">
@@ -626,7 +626,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/41766295056"
+      href="https://wa.me/41786521828"
       target="_blank"
       rel="noreferrer"
       aria-label="Per WhatsApp chatten"
