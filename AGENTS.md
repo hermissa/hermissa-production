@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Use the shared IntersectionObserver-based Reveal wrapper for one-time content entrance animations, because it keeps motion consistent and respects reduced-motion settings.
-- Keep the declared PNG favicon and the fallback /favicon.ico derived from the same supplied brand mark, because browsers and crawlers may request either path.
+- Derive all favicon variants from the same supplied brand mark; use media-qualified PNG icons for browser light/dark preferences and retain an opaque default PNG and /favicon.ico fallback for crawlers and older browsers.
